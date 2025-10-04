@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-class-structure",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "ESLint rule that enforces a readable class layout with explicit visibility",
   "type": "module",
   "license": "MIT",
