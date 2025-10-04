@@ -58,6 +58,8 @@ function orderOf(
 type MsgIds = "order" | "visibility" | "privateNaming" | "classMustHaveMethods";
 
 const rule: TSESLint.RuleModule<MsgIds, []> = {
+  name: "class-structure",
+  defaultOptions: [],
   meta: {
     type: "suggestion",
     docs: { description: "Enforce class layout and explicit visibility" },
@@ -75,10 +77,11 @@ const rule: TSESLint.RuleModule<MsgIds, []> = {
   },
   create(context) {
     return {
+      // @ts-ignore NodeParentExtension is not exported
       ClassBody(node: TSESTree.ClassBody & TSESLint.NodeParentExtension) {
         const members = node.body
           .filter(isMethodLike)
-          .filter((m) => !isConstructor(m));
+          .filter((m: TSESTree.MethodDefinition) => !isConstructor(m));
         if (members.length === 0) {
           context.report({ node, messageId: "classMustHaveMethods" });
           return;
@@ -110,6 +113,7 @@ const rule: TSESLint.RuleModule<MsgIds, []> = {
   },
 };
 
+// @ts-ignore Plugin type is not exported
 const plugin: TSESLint.Plugin = {
   rules: {
     enforce: rule,
