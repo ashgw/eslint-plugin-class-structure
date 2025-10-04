@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    uses: ./.github/workflows/lint.yml
+    secrets: inherit
+  test:
+    uses: ./.github/workflows/test.yml
+    secrets: inherit
+
+  mergeable:
+    if: always()
+    needs:
+      - lint
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: re-actors/alls-green@release/v1
+        id: all-green
+        with:
+          jobs: ${{ toJSON(needs)}}
+
+  npm:
+    if: github.ref == 'refs/heads/main'
+    needs: [mergeable]
+    uses: ./.github/workflows/npm.yml
+    secrets: inherit
