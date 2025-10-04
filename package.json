@@ -1,12 +1,57 @@
 {
   "name": "eslint-plugin-class-structure",
-  "module": "index.ts",
+  "version": "0.1.0",
+  "description": "ESLint rule that enforces a readable class layout with explicit visibility",
   "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ashgw/eslint-plugin-class-structure.git"
+  },
+  "author": {
+    "email": "oss@ashgw.me",
+    "url": "github.com/ashgw",
+    "name": "@ashgw"
+  },
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "typescript",
+    "class",
+    "lint",
+    "style",
+    "architecture"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "eslint": ">=8.57 <11",
+    "typescript": "^5"
+  },
   "devDependencies": {
+    "@types/eslint": "^8.56.10",
+    "typescript": "^5.6.3",
     "@types/bun": "latest",
     "@typescript-eslint/utils": "^8.45.0"
   },
-  "peerDependencies": {
-    "typescript": "^5"
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build:js": "bun build ./index.ts --outdir dist --format esm --target node",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build": "bun run clean && bun run build:js && bun run build:types",
+    "release": "node ./tools/release.js",
+    "prepublishOnly": "bun run build"
   }
 }
