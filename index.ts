@@ -1,6 +1,5 @@
 import type { TSESLint, TSESTree } from "@typescript-eslint/utils";
 
-// Helpers
 function isMethodLike(
   n: TSESTree.ClassElement
 ): n is TSESTree.MethodDefinition | TSESTree.PropertyDefinition {

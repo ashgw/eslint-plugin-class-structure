@@ -25,24 +25,12 @@ jobs:
   lint:
     uses: ./.github/workflows/lint.yml
     secrets: inherit
-  test:
-    uses: ./.github/workflows/test.yml
+  build:
+    uses: ./.github/workflows/build.yml
     secrets: inherit
-
-  mergeable:
-    if: always()
-    needs:
-      - lint
-      - test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: re-actors/alls-green@release/v1
-        id: all-green
-        with:
-          jobs: ${{ toJSON(needs)}}
 
   npm:
     if: github.ref == 'refs/heads/main'
-    needs: [mergeable]
+    needs: [lint, build]
     uses: ./.github/workflows/npm.yml
     secrets: inherit
