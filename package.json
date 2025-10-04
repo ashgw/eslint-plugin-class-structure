@@ -3,7 +3,8 @@
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@typescript-eslint/utils": "^8.45.0"
   },
   "peerDependencies": {
     "typescript": "^5"
